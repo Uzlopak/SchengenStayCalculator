@@ -1,0 +1,33 @@
+<!doctype>
+<html>
+<head>
+    <title>SchengenStayCalculator</title>
+	<link href="css/calendar.css" rel="stylesheet" />
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <script type="text/javascript" src="logic/VO_610_2013.js"></script>
+    <script type="text/javascript" src="logic/DateHelper.js"></script>
+    <script type="text/javascript" src="model/DateSet.js"></script>
+    <script type="text/javascript" src="logic/StringHelper.js"></script>
+    <script type="text/javascript" src="view/SchengenCalendar.js"></script>
+    <script type="text/javascript" src="view/SchengenForm.js"></script>
+
+    <script type="text/javascript">
+    	function main() {
+	    	var calendar = new SchengenCalendar({
+	    		targetElement : document.getElementById('schengenCalendar')
+	    	});
+	    	var form = new SchengenForm({
+	    		targetElement : document.getElementById('schengenForm')
+	    	});
+			calendar.initialize();
+    	}
+    </script>
+</head>
+
+<body onload="main()">
+	<div id="schengenCalendar" style='position: relative; left: 0; top: 0; bottom: 0; overflow: auto; width: 100%;'></div>
+	<div id="schengenForm" style='position: relative; left: 0; top: 0; bottom: 0; overflow: auto; width: 200px; height: 200px;'></div>
+</body>
+</html>
