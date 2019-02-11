@@ -1,29 +1,20 @@
-QUnit.test( "VO_610_2013: calculateReferencePeriods", function( assert ) {
+QUnit.test( "VO_610_2013: calculate180DaysPeriodBegin", function( assert ) {
 	//Source: http://www.info4alien.de/cgi-bin/forum/YaBB.cgi?num=1280220533/3#3
-	var referencePeriod = VO_610_2013.calculateReferencePeriods([new Date(2014,2,16)]);
-	assert.equal(referencePeriod[0].begin.getDate(), 18 , "ReferencePeriod ending on 16.03.2014 begins 18.09.2013" );
-	assert.equal(referencePeriod[0].begin.getMonth(), 8 , "ReferencePeriod ending on 16.03.2014 begins 18.09.2013" );
-	assert.equal(referencePeriod[0].begin.getFullYear(), 2013 , "ReferencePeriod ending on 16.03.2014 begins 18.09.2013" );
+	var periodBegin = VO_610_2013.calculate180DaysPeriodBegin(new Date(Date.UTC(2014,2,16)));
+	assert.equal(periodBegin.getDate(), 18 , "ReferencePeriod ending on 16.03.2014 begins 18.09.2013" );
+	assert.equal(periodBegin.getMonth(), 8 , "ReferencePeriod ending on 16.03.2014 begins 18.09.2013" );
+	assert.equal(periodBegin.getFullYear(), 2013 , "ReferencePeriod ending on 16.03.2014 begins 18.09.2013" );
 
-	var referencePeriod = VO_610_2013.calculateReferencePeriods([new Date(2014,2,17)]);
-	assert.equal((referencePeriod[0].begin.getDate() === 19) &&
-		     (referencePeriod[0].begin.getMonth() === 8) &&
-		     (referencePeriod[0].begin.getFullYear() === 2013), true , "ReferencePeriod ending on 17.03.2014 begins 19.09.2013" );
-
+	var periodBegin = VO_610_2013.calculate180DaysPeriodBegin(new Date(Date.UTC(2014,2,17)));
+	assert.equal(periodBegin.getDate(), 19 , "ReferencePeriod ending on 17.03.2014 begins 19.09.2013"  );
+	assert.equal(periodBegin.getMonth(), 8 , "ReferencePeriod ending on 17.03.2014 begins 19.09.2013"  );
+	assert.equal(periodBegin.getFullYear(), 2013 , "ReferencePeriod ending on 17.03.2014 begins 19.09.2013"  );
+	
 	//Source:https://www.sem.admin.ch/sem/de/home/themen/einreise/aufenthaltsrechner/bsp-6.html
-	var referencePeriod = VO_610_2013.calculateReferencePeriods([new Date(2014,2,1)]);
-	assert.equal((referencePeriod[0].begin.getDate() === 3) &&
-		     (referencePeriod[0].begin.getMonth() === 8) &&
-		     (referencePeriod[0].begin.getFullYear() === 2013), true , "ReferencePeriod ending on 01.03.2014 begins 03.09.2013" );
-
-});
-
-QUnit.test( "VO_610_2013: calculate90DaysPeriod", function( assert ) {
-	//Source: https://www.sem.admin.ch/sem/de/home/themen/einreise/aufenthaltsrechner/bsp-6.html
-	var referencePeriod = VO_610_2013.calculate90DaysPeriod([new Date(2014,2,1)]);
-	assert.equal((referencePeriod[0].begin.getDate() === 2) &&
-			     (referencePeriod[0].begin.getMonth() === 11) &&
-			     (referencePeriod[0].begin.getFullYear() === 2013), true , "90 Days Period ending on 01.03.2014 begins 18.09.2013" );	
+	var periodBegin = VO_610_2013.calculate180DaysPeriodBegin(new Date(Date.UTC(2014,2,1)));
+	assert.equal(periodBegin.getDate(), 3 , "ReferencePeriod ending on 01.03.2014 begins 03.09.2013"  );
+	assert.equal(periodBegin.getMonth(), 8 , "ReferencePeriod ending on 01.03.2014 begins 03.09.2013"  );
+	assert.equal(periodBegin.getFullYear(), 2013 , "ReferencePeriod ending on 01.03.2014 begins 03.09.2013"  );
 });
 
 

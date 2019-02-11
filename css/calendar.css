@@ -28,9 +28,10 @@
 
 .schengenCalendar .day.stay.valid div{
 	background-color: green;
+	color: white;
 }
 
-.schengenCalendar .day.stay.over div{
+.schengenCalendar .day.stay.invalid div{
 	background-color: red;
 	color: white;
 }

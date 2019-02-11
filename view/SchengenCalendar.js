@@ -27,9 +27,11 @@ var SchengenCalendar = function(options) {
 	return this;
 };
 
-SchengenCalendar.prototype.initialize = function() {
+SchengenCalendar.prototype.initialize = function(options) {
 	var today = new Date();
-	for (var i = -4; i < 4; i++) {
+	options = options || {};
+	var amountOfMonths = options.amountOfMonths || 6;
+	for (var i = ((amountOfMonths - 1) * -1); i <= amountOfMonths + 1; i++) {
 		var date = new Date(today.getUTCFullYear(), today.getUTCMonth() + i, 0);
 		this.addMonth(date.getUTCMonth(), date.getUTCFullYear());
 	}
@@ -177,7 +179,7 @@ SchengenCalendar.prototype.addMonth = function(month, year) {
 
 	var legendElement = document.createElement('li');
 	legendElement.className = 'legend';
-	legendElement.textContent = StringHelper.pad(month+1,2) + '/' + StringHelper.pad(year,2).substr(2,2);
+	legendElement.textContent = StringHelper.pad(month+1,2) + '/' + StringHelper.pad(year,2);
 	this.calendarElement.appendChild(legendElement);
 
 	for (var day = 1; day <= amountOfDaysInMonth; day += 1) {
@@ -211,24 +213,24 @@ SchengenCalendar.prototype.activateEventManaging = function() {
 		ctrlIsPressed = event.ctrlKey;
 	}
 
-	this.calendarElement.onmousedown = function(mouseEvent) {
-		if (mouseEvent.target.tagName === 'DIV') {
-			var year = mouseEvent.target.parentElement.getAttribute('data-year');
-			var month = mouseEvent.target.parentElement.getAttribute('data-month');
-			var day = mouseEvent.target.parentElement.getAttribute('data-day');
+	this.calendarElement.onmousedown = function(event) {
+		if (event.target.tagName === 'DIV') {
+			var year = event.target.parentElement.getAttribute('data-year');
+			var month = event.target.parentElement.getAttribute('data-month');
+			var day = event.target.parentElement.getAttribute('data-day');
 			
 			startDate = new Date(Date.UTC(year, month, day));
 			isBeingSelected = true;
 		}
 	}
 
-	this.calendarElement.onmousemove = function(mouseEvent) {
+	this.calendarElement.onmousemove = function(event) {
 		if (isBeingSelected) {
-			if (mouseEvent.target.tagName === 'DIV') {
-				if (mouseEvent.target.parentElement.getAttribute('data-day') !== null) {
-					var year = mouseEvent.target.parentElement.getAttribute('data-year');
-					var month = mouseEvent.target.parentElement.getAttribute('data-month');
-					var day = mouseEvent.target.parentElement.getAttribute('data-day');
+			if (event.target.tagName === 'DIV') {
+				if (event.target.parentElement.getAttribute('data-day') !== null) {
+					var year = event.target.parentElement.getAttribute('data-year');
+					var month = event.target.parentElement.getAttribute('data-month');
+					var day = event.target.parentElement.getAttribute('data-day');
 
 					var date = new Date(Date.UTC(year, month, day));
 					if (ctrlIsPressed) {
@@ -243,20 +245,30 @@ SchengenCalendar.prototype.activateEventManaging = function() {
 			}
 		}
 	}
+	this.calendarElement.oncontextmenu = function(event) {
+		if(event.preventDefault != undefined)
+			event.preventDefault();
+		if(event.stopPropagation != undefined)
+			event.stopPropagation();
+	}
 
-	this.calendarElement.onmouseup = function(mouseEvent) {
+	this.calendarElement.onmouseup = function(event) {
+		var action = 'select';
+		if ((event.which && event.which == 3) || (event.button && event.button == 2) || ctrlIsPressed ) {
+			action = 'deselect';			
+		}
 		if (isBeingSelected) {
-			if (mouseEvent.target.tagName === 'DIV') {
-				var year = mouseEvent.target.parentElement.getAttribute('data-year');
-				var month = mouseEvent.target.parentElement.getAttribute('data-month');
-				var day = mouseEvent.target.parentElement.getAttribute('data-day');
+			if (event.target.tagName === 'DIV') {
+				var year = event.target.parentElement.getAttribute('data-year');
+				var month = event.target.parentElement.getAttribute('data-month');
+				var day = event.target.parentElement.getAttribute('data-day');
 
 				var endDate = new Date(Date.UTC(year, month, day));
 
-				if (ctrlIsPressed) {
-					calendar.stayedDates = calendar.stayedDates.exclude(DateHelper.getDateRange(startDate, endDate));
-				} else {
+				if (action === 'select') {
 					calendar.stayedDates = calendar.stayedDates.concat(DateHelper.getDateRange(startDate, endDate));
+				} else {
+					calendar.stayedDates = calendar.stayedDates.exclude(DateHelper.getDateRange(startDate, endDate));
 				}
 				startDate = void 0;
 				calendar.repaint();
@@ -265,6 +277,11 @@ SchengenCalendar.prototype.activateEventManaging = function() {
 			}
 		}
 		isBeingSelected = false;
+		
+		if(event.preventDefault != undefined)
+			event.preventDefault();
+		if(event.stopPropagation != undefined)
+			event.stopPropagation();
 	}
 };
 
@@ -280,7 +297,7 @@ SchengenCalendar.prototype.processStayedDates = function() {
 		if (VO_610_2013.isDateValidByDateSet(curDate, this.stayedDates)) {
 			element.className = element.className + ' valid';
 		} else {
-			element.className = element.className + ' over';
+			element.className = element.className + ' invalid';
 		}
 	}		
 	

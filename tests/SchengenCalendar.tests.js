@@ -14,6 +14,7 @@ QUnit.test( "SchengenCalendar: addMonth", function( assert ) {
 	assert.equal(calendarElement.innerHTML, expectedResult, "Add the month of October 2017 to the calendar" );
 });
 
+/*
 QUnit.test( "SchengenCalendar: drawTimePeriod", function( assert ) {
 	var calendarElement = document.createElement('DIV');
 	var calendar = new SchengenCalendar({targetElement: calendarElement});
@@ -42,7 +43,7 @@ QUnit.test( "SchengenCalendar: drawTimePeriod", function( assert ) {
 	
 	document.body.removeChild(calendarElement);
 });
-
+*/
 QUnit.test( "SchengenCalendar: reset", function( assert ) {
 	var calendarElement = document.createElement('DIV');
 	var calendar = new SchengenCalendar({targetElement: calendarElement});

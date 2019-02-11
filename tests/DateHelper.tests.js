@@ -7,16 +7,24 @@ QUnit.test( "DateHelper: isLastDayOfMonth", function( assert ) {
 	assert.equal(DateHelper.isLastDayOfMonth(new Date(2018,0,31)), true, "31.01.2018 is last day of month." );
 });
 QUnit.test( "DateHelper: getDateRange", function( assert ) {
-	assert.equal(DateHelper.getDateRange(new Date(2018,0,1),new Date(2018,0,1)).length, 1, "DateRange from 01.01.2018 to 01.01.2018 contains one date." );
-	assert.equal(DateHelper.getDateRange(new Date(2018,0,1),new Date(2018,0,1))[0].getTime(), (new Date(2018,0,1)).getTime(), "DateRange from 01.01.2018 to 01.01.2018 is only containing the date 01.01.2018." );
+	assert.equal(DateHelper.getDateRange(new Date(Date.UTC(2018,0,1)),new Date(Date.UTC(2018,0,1))).length, 1, "DateRange from 01.01.2018 to 01.01.2018 contains one date." );
+	assert.equal(DateHelper.getDateRange(new Date(Date.UTC(2018,0,1)),new Date(Date.UTC(2018,0,1)))[0].getUTCFullYear(), 2018, "DateRange from 01.01.2018 to 01.01.2018 is only containing the date 01.01.2018." );
+	assert.equal(DateHelper.getDateRange(new Date(Date.UTC(2018,0,1)),new Date(Date.UTC(2018,0,1)))[0].getUTCMonth(), 0, "DateRange from 01.01.2018 to 01.01.2018 is only containing the date 01.01.2018." );
+	assert.equal(DateHelper.getDateRange(new Date(Date.UTC(2018,0,1)),new Date(Date.UTC(2018,0,1)))[0].getUTCDate(), 1, "DateRange from 01.01.2018 to 01.01.2018 is only containing the date 01.01.2018." );
 
-	assert.equal(DateHelper.getDateRange(new Date(2018,0,1),new Date(2018,0,2)).length, 2, "DateRange from 01.01.2018 to 02.01.2018 contains two dates." );
-	assert.equal(DateHelper.getDateRange(new Date(2018,0,1),new Date(2018,0,2))[0].getTime(), (new Date(2018,0,1)).getTime(), "DateRange from 01.01.2018 to 02.01.2018 is containing the date 01.01.2018 as first date.");
-	assert.equal(DateHelper.getDateRange(new Date(2018,0,1),new Date(2018,0,2))[1].getTime(), (new Date(2018,0,2)).getTime(), "DateRange from 01.01.2018 to 02.01.2018 is containing the date 02.01.2018 as last date.");
+	assert.equal(DateHelper.getDateRange(new Date(Date.UTC(2018,0,1)),new Date(Date.UTC(2018,0,2))).length, 2, "DateRange from 01.01.2018 to 01.01.2018 contains one date." );
+	assert.equal(DateHelper.getDateRange(new Date(Date.UTC(2018,0,1)),new Date(Date.UTC(2018,0,2)))[0].getUTCFullYear(), 2018, "DateRange from 01.01.2018 to 01.01.2018 is only containing the date 01.01.2018." );
+	assert.equal(DateHelper.getDateRange(new Date(Date.UTC(2018,0,1)),new Date(Date.UTC(2018,0,2)))[0].getUTCMonth(), 0, "DateRange from 01.01.2018 to 01.01.2018 is only containing the date 01.01.2018." );
+	assert.equal(DateHelper.getDateRange(new Date(Date.UTC(2018,0,1)),new Date(Date.UTC(2018,0,2)))[0].getUTCDate(), 1, "DateRange from 01.01.2018 to 01.01.2018 is only containing the date 01.01.2018." );
 
+	assert.equal(DateHelper.getDateRange(new Date(Date.UTC(2018,0,1)),new Date(Date.UTC(2018,0,2)))[1].getUTCFullYear(), 2018, "DateRange from 01.01.2018 to 01.01.2018 is only containing the date 01.01.2018." );
+	assert.equal(DateHelper.getDateRange(new Date(Date.UTC(2018,0,1)),new Date(Date.UTC(2018,0,2)))[1].getUTCMonth(), 0, "DateRange from 01.01.2018 to 01.01.2018 is only containing the date 01.01.2018." );
+	assert.equal(DateHelper.getDateRange(new Date(Date.UTC(2018,0,1)),new Date(Date.UTC(2018,0,2)))[1].getUTCDate(), 2, "DateRange from 01.01.2018 to 01.01.2018 is only containing the date 01.01.2018." );
 });
 QUnit.test( "DateHelper: addDays", function( assert ) {
-	assert.equal(DateHelper.addDays(new Date(2018,0,1),1).getTime(), (new Date(2018,0,2)).getTime(), "Adding one day to 01.01.2018 results into 02.01.2018" );
+	assert.equal(DateHelper.addDays(new Date(Date.UTC(2018,0,1)),1).getUTCFullYear(), 2018, "Adding one day to 01.01.2018 results into 02.01.2018" );
+	assert.equal(DateHelper.addDays(new Date(Date.UTC(2018,0,1)),1).getUTCMonth(), 0, "Adding one day to 01.01.2018 results into 02.01.2018" );
+	assert.equal(DateHelper.addDays(new Date(Date.UTC(2018,0,1)),1).getUTCDate(), 2, "Adding one day to 01.01.2018 results into 02.01.2018" );
 });
 QUnit.test( "DateHelper: isDateInDateArray", function( assert ) {
 	assert.equal(DateHelper.isDateInDateArray(new Date(2018,0,1), [new Date(2018,0,2)]), false, "The 02.01.2018 is not in Array [01.01.2018]" );

@@ -19,10 +19,8 @@ var DateHelper = {
 		var currentDate = firstDate;
 		while (currentDate.getTime() <= secondDate.getTime()) {
 			dates.addDate(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate());
-			currentDate = this.addDays(currentDate, 1);
-		}
-		dates.sort();
-		
+			currentDate = DateHelper.addDays(currentDate, 1);
+		}		
 		return dates.values();
 	},
 	addDays : function(date, days) {
